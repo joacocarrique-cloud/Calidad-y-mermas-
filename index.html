@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F6F2EA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Calidad">
+<title>Calidad de granos · Espartina</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233B6D11'/%3E%3Cpath d='M32 12c-6 8-6 16 0 22 6-6 6-14 0-22zM32 34v18M22 30c0 7 4 11 10 12M42 30c0 7-4 11-10 12' stroke='%23F6F2EA' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#F6F2EA;--card:#FFFDF8;--ink:#2B2A26;--ink2:#6B675E;--ink3:#9A958A;--line:#E4DED1;--acc:#3B6D11;--acc-bg:#EAF3DE;--red:#A32D2D;--red-bg:#FCEBEB;--amb:#854F0B;--amb-bg:#FAEEDA;--r:12px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(10px + env(safe-area-inset-top)) 16px 8px;border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+h1{font-size:17px;font-weight:600;margin:0}
+.net{font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 14px;font-size:15px;cursor:pointer}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:14px 16px calc(110px + env(safe-area-inset-bottom));display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.norma{font-size:12px;color:var(--ink3);margin:0 0 10px}
+.sec{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2);margin:14px 0 6px}
+.f{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line)}
+.f:first-of-type{border-top:0}
+.f label{flex:1;font-size:15px}
+.f .u{font-size:12px;color:var(--ink3);display:block}
+.f input{width:96px;font-size:17px;text-align:right;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-variant-numeric:tabular-nums}
+.f input:focus{outline:2px solid var(--acc);border-color:transparent}
+.f input.bad{outline:2px solid var(--red)}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;border:0;background:#fff;padding:9px 6px;font-size:14px;color:var(--ink2)}
+.seg button.on{background:var(--acc-bg);color:var(--acc);font-weight:600}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.big{font-size:40px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+.pos{color:var(--acc)}.neg{color:var(--red)}
+.badge{display:inline-block;font-size:13px;padding:4px 10px;border-radius:999px;background:var(--acc-bg);color:var(--acc);margin-bottom:8px}
+.badge.g3{background:var(--amb-bg);color:var(--amb)}.badge.out{background:var(--red-bg);color:var(--red)}
+.sub{font-size:13px;color:var(--ink2)}
+.ln{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.ln b{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.kp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.kp div{background:var(--bg);border-radius:10px;padding:10px}
+.kp span{display:block;font-size:12px;color:var(--ink2)}.kp strong{font-size:18px;font-variant-numeric:tabular-nums}
+.al{background:var(--amb-bg);color:var(--amb);border-radius:10px;padding:10px 12px;font-size:13px;margin-top:8px}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btn{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px;font-size:15px;color:var(--ink)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+details{font-size:13px;color:var(--ink2)}summary{cursor:pointer;padding:6px 0}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--ink);color:#fff;padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:center;font-variant-numeric:tabular-nums}
+.bar small{display:block;font-size:11px;opacity:.7}.bar strong{font-size:22px}
+.bar button{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;padding:8px 14px;font-size:14px}
+.empty{color:var(--ink3);font-size:14px;padding:6px 0}
+@media(min-width:820px){main{grid-template-columns:1fr 1fr;align-items:start;padding-bottom:30px}#res{position:sticky;top:120px}.bar{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Calidad de granos</h1><span class="net"><span class="dot" id="dot"></span><span id="netl">Funciona sin conexión</span></span></div>
+  <div class="chips" id="chips" role="tablist" aria-label="Cultivo"></div>
+</header>
+<main>
+  <section class="card" id="form" aria-label="Análisis"></section>
+  <section class="card" id="res" aria-live="polite"></section>
+</main>
+<div class="bar" id="bar"><div><small>Ajuste sobre precio</small><strong id="bt">0,0%</strong></div><div style="text-align:right"><small>Merma humedad</small><strong id="bm" style="font-size:16px">0,0%</strong></div><button onclick="document.getElementById('res').scrollIntoView({behavior:'smooth'})">Ver detalle</button></div>
+<script>// Motor de cálculo — Normas de comercialización (CAC-BCR). Compartido por index.html y por los tests.
+(function (G) {
+  const INF = Infinity;
+  const r1 = x => Math.round(x * 100) / 100;
+
+  // Suma escalonada del excedente sobre la base: tiers = [[hasta, tasa], ...]
+  function above(v, base, tiers) {
+    if (v == null || v <= base) return 0;
+    let tot = 0, prev = base;
+    for (const [to, rate] of tiers) {
+      const hi = Math.min(v, to);
+      if (hi > prev) tot += (hi - prev) * rate;
+      prev = to;
+      if (v <= to) break;
+    }
+    return tot;
+  }
+  // Suma escalonada del faltante bajo la base: tiers = [[hasta (menor), tasa], ...]
+  function below(v, base, tiers) {
+    if (v == null || v >= base) return 0;
+    let tot = 0, prev = base;
+    for (const [to, rate] of tiers) {
+      const lo = Math.max(v, to);
+      if (lo < prev) tot += (prev - lo) * rate;
+      prev = to;
+      if (v >= to) break;
+    }
+    return tot;
+  }
+
+  function merma(hi, h) {
+    if (hi == null || hi <= h.base) return 0;
+    return r1((hi - h.hf) * 100 / (100 - h.hf) + h.m);
+  }
+
+  // ---------- Cultivos ----------
+  const CROPS = [
+    {
+      id: 'trigo', n: 'Trigo pan', norma: 'Norma XX · Res. SAGPyA 1262/04',
+      hum: { base: 14, tol: 14, hf: 13.5, m: 0.25 },
+      grados: {
+        bon: [1.5, 0, -1], contrato: 'grado',
+        rub: [
+          { k: 'ph', l: 'Peso hectolítrico', u: 'kg/hl', lim: [79, 76, 73], min: true },
+          { k: 'me', l: 'Materias extrañas', u: '%', lim: [0.2, 0.8, 1.5] },
+          { k: 'dt', l: 'Granos dañados (total)', u: '%', lim: [1, 2, 3] },
+          { k: 'ar', l: 'Ardidos y dañados por calor', u: '%', lim: [0.5, 1, 1.5] },
+          { k: 'qb', l: 'Quebrados y/o chuzos', u: '%', lim: [0.5, 1.2, 2] },
+          { k: 'cb', l: 'Granos con carbón', u: '%', lim: [0.1, 0.2, 0.3] },
+          { k: 'pb', l: 'Panza blanca', u: '%', lim: [15, 25, 40] },
+        ],
+      },
+      extra: [{ k: 'pr', l: 'Proteína (b. 13,5% H)', u: '%' }],
+      calcExtra(v, out) {
+        const p = v.pr; if (p == null) return;
+        if (p >= 11) {
+          if (v.ph != null && v.ph < 75) { out.alerts.push('PH menor a 75: no corresponde bonificación por proteína.'); }
+          else if (p > 11) out.lines.push({ l: 'Proteína ' + fmt(p, 1) + '% (base 11%)', pct: (p - 11) * 2 });
+        } else {
+          const d = below(p, 11, [[10, 2], [9, 3], [-INF, 4]]);
+          out.lines.push({ l: 'Proteína ' + fmt(p, 1) + '% (base 11%)', pct: -d });
+          if (p < 10) out.alerts.push('Con proteína baja el comprador puede declararlo fuera de estándar si el contrato cita el punto 12 de la norma.');
+        }
+      },
+    },
+    {
+      id: 'maiz', n: 'Maíz', norma: 'Norma XII · Res. SAGyP 1075/94',
+      hum: { base: 14.5, tol: 14.5, hf: 13.5, m: 0.25 },
+      grados: {
+        bon: [1, 0, -1.5], contrato: 'camara',
+        rub: [
+          { k: 'ph', l: 'Peso hectolítrico', u: 'kg/hl', lim: [75, 72, 69], min: true, exc: 1 },
+          { k: 'da', l: 'Granos dañados', u: '%', lim: [3, 5, 8], exc: 1 },
+          { k: 'qb', l: 'Granos quebrados', u: '%', lim: [2, 3, 5], exc: 0.25 },
+          { k: 'me', l: 'Materias extrañas', u: '%', lim: [1, 1.5, 2], exc: 1 },
+        ],
+      },
+    },
+    {
+      id: 'sorgo', n: 'Sorgo', norma: 'Norma XVIII · Res. SENASA 554/11',
+      hum: { base: 15, tol: 15, hf: 14, m: 0.25 },
+      grados: {
+        bon: [1, 0, -1.5], contrato: 'camara',
+        rub: [
+          { k: 'da', l: 'Granos dañados', u: '%', lim: [2, 4, 6], exc: 1 },
+          { k: 'me', l: 'Materias extrañas', u: '%', lim: [2, 3, 4], exc: 1 },
+          { k: 'qb', l: 'Granos quebrados', u: '%', lim: [3, 5, 7], exc: 0.5 },
+        ],
+      },
+    },
+    {
+      id: 'cebf', n: 'Cebada forrajera', norma: 'Norma V · Anexo B',
+      hum: { base: 14, tol: 14, hf: 13.5, m: 0.25 },
+      grados: {
+        bon: [1, 0, -1.5], contrato: 'grado',
+        rub: [
+          { k: 'ph', l: 'Peso hectolítrico', u: 'kg/hl', lim: [62, 59, 56], min: true },
+          { k: 'me', l: 'Materias extrañas', u: '%', lim: [1, 1.5, 2] },
+          { k: 'da', l: 'Granos dañados', u: '%', lim: [1.5, 2, 3] },
+          { k: 'pr', l: 'Pelados y/o rotos', u: '%', lim: [4, 6, 8] },
+          { k: 'cb', l: 'Granos con carbón', u: '%', lim: [0.1, 0.2, 0.3] },
+        ],
+      },
+    },
+    {
+      id: 'soja', n: 'Soja', norma: 'Norma XVII · Res. SAGPyA 151/08',
+      hum: { base: 13.5, tol: 13.5, hf: 13, m: 0.25 },
+      fields: [
+        { k: 'me', l: 'Materias extrañas', u: '%' },
+        { k: 'qb', l: 'Quebrados y/o partidos', u: '%' },
+        { k: 'da', l: 'Granos dañados', u: '%' },
+        { k: 'qm', l: 'de los cuales quemados/avería', u: '%' },
+        { k: 've', l: 'Granos verdes', u: '%' },
+        { k: 'ne', l: 'Granos negros', u: '%' },
+      ],
+      calc(v, out) {
+        line(out, 'Materias extrañas (base 1%)', -above(v.me, 1, [[3, 1], [INF, 1.5]]), v.me);
+        if (v.me > 3) out.alerts.push('Materias extrañas superan la tolerancia de recibo (3%).');
+        line(out, 'Quebrados (base 20%)', -above(v.qb, 20, [[25, 0.25], [30, 0.5], [INF, 0.75]]), v.qb);
+        if (v.qb > 30) out.alerts.push('Quebrados superan la tolerancia de recibo (30%).');
+        line(out, 'Dañados (base 5%)', -above(v.da, 5, [[INF, 1]]), v.da);
+        line(out, 'Quemados/avería (base 1%)', -above(v.qm, 1, [[INF, 1]]), v.qm);
+        line(out, 'Verdes (base 5%)', -above(v.ve, 5, [[INF, 0.2]]), v.ve);
+        if (v.ve > 10) out.alerts.push('Verdes superan la tolerancia de recibo (10%).');
+        if (v.ne > 1) out.alerts.push('Granos negros superan la tolerancia (1%): descuento a convenir.');
+      },
+    },
+    {
+      id: 'girasol', n: 'Girasol', norma: 'Norma IX · Res. SAGyP 1075/94',
+      hum: { base: 11, tol: 14, hf: 10.5, m: 0.2 },
+      fields: [
+        { k: 'mg', l: 'Materia grasa (s.s.s.l.)', u: '%' },
+        { k: 'ac', l: 'Acidez de la materia grasa', u: '%' },
+        { k: 'me', l: 'Materias extrañas', u: '%' },
+        { k: 'ch', l: 'Chamico', u: 'sem/100 g' },
+      ],
+      calc(v, out, d) {
+        if (v.mg != null && v.mg !== 42) line(out, 'Materia grasa (base 42%)', (v.mg - 42) * 2, v.mg);
+        const m = (d || new Date()).getMonth() + 1;
+        const tol = m >= 9 ? 2 : 1.5;
+        line(out, 'Acidez (tol. ' + fmt(tol, 1) + '% ' + (m >= 9 ? 'desde 1/9' : 'hasta 31/8') + ')', -above(v.ac, tol, [[INF, 2.5]]), v.ac);
+        line(out, 'Materias extrañas', -above(v.me, 0, [[3, 1], [INF, 1.5]]), v.me);
+        line(out, 'Chamico', -(v.ch > 0 ? v.ch * 0.1 : 0), v.ch);
+      },
+    },
+    {
+      id: 'cebc', n: 'Cebada cervecera', norma: 'Norma V · Anexo A · Res. SENASA 27/13',
+      hum: { base: 12, tol: 12.5, hf: 12, m: 0.2 },
+      fields: [
+        { k: 'ge', l: 'Capacidad germinativa', u: '%' },
+        { k: 'me', l: 'Materias extrañas', u: '%' },
+        { k: 'da', l: 'Granos dañados', u: '%' },
+        { k: 'qb', l: 'Quebrados y/o pelados', u: '%' },
+        { k: 'ca', l: 'Calibre s/ zaranda 2,5 mm', u: '%' },
+        { k: 'bz', l: 'Bajo zaranda 2,2 mm', u: '%' },
+        { k: 'cb', l: 'Carbón', u: '%' },
+        { k: 'pi', l: 'Granos picados', u: '%' },
+        { k: 'pr', l: 'Proteína (s.s.s.)', u: '%' },
+      ],
+      calc(v, out) {
+        line(out, 'Germinación (base 98%)', -below(v.ge, 98, [[-INF, 0.5]]), v.ge);
+        if (v.ge < 95) out.alerts.push('Germinación menor a la tolerancia de recibo (95%).');
+        line(out, 'Materias extrañas (base 0,5%)', -above(v.me, 0.5, [[INF, 1]]), v.me);
+        if (v.me > 1) out.alerts.push('Materias extrañas superan la tolerancia de recibo (1%).');
+        if (v.da != null) line(out, 'Dañados (base 0,5%)', v.da < 0.5 ? (0.5 - v.da) : -above(v.da, 0.5, [[INF, 0.5]]), v.da);
+        if (v.da > 1.5) out.alerts.push('Dañados superan la tolerancia de recibo (1,5%).');
+        if (v.qb != null) line(out, 'Quebrados/pelados (base 1,5%)', v.qb < 1.5 ? (1.5 - v.qb) : -above(v.qb, 1.5, [[INF, 0.5]]), v.qb);
+        if (v.qb > 4) out.alerts.push('Quebrados/pelados superan la tolerancia de recibo (4%).');
+        line(out, 'Calibre (base 85%)', -below(v.ca, 85, [[-INF, 0.5]]), v.ca);
+        if (v.ca < 80) out.alerts.push('Calibre menor a la tolerancia de recibo (80%).');
+        if (v.bz > 4) out.alerts.push('Bajo zaranda 2,2 mm supera la tolerancia (4%).');
+        if (v.cb > 0.2) out.alerts.push('Carbón supera la tolerancia (0,2%).');
+        if (v.pi > 0.5) out.alerts.push('Picados superan la tolerancia (0,5%).');
+        if (v.pr != null && (v.pr < 9.5 || v.pr > 13)) out.alerts.push('Proteína fuera del rango de recibo (9,5% a 13%).');
+        if (v.h != null && v.h < 12) line(out, 'Humedad bajo base 12%', (12 - v.h) * 1.2, v.h);
+        if (v.h > 12.5) out.alerts.push('Humedad supera la tolerancia de recibo (12,5%).');
+      },
+    },
+    {
+      id: 'colza', n: 'Colza', norma: 'Norma VII · Res. SAGyP 1075/94',
+      hum: { base: 8, tol: 10, hf: 8, m: 0.25 },
+      fields: [
+        { k: 'mg', l: 'Materia grasa (s.s.s.l.)', u: '%' },
+        { k: 'ac', l: 'Acidez de la materia grasa', u: '%' },
+        { k: 'ce', l: 'Cuerpos extraños', u: '%' },
+      ],
+      calc(v, out, d) {
+        if (v.mg != null && v.mg !== 40) line(out, 'Materia grasa (base 40%)', (v.mg - 40) * 1, v.mg);
+        const m = (d || new Date()).getMonth() + 1;
+        const base = m >= 6 ? 1.5 : 1.0;
+        line(out, 'Acidez (base ' + fmt(base, 1) + '%)', -above(v.ac, base, [[INF, 2.5]]), v.ac);
+        line(out, 'Cuerpos extraños', -above(v.ce, 0, [[INF, 1]]), v.ce);
+        if (v.ce > 6) out.alerts.push('Cuerpos extraños superan la tolerancia de recibo (6%).');
+      },
+    },
+    {
+      id: 'canola', n: 'Canola 00', norma: 'Norma VIII · Res. SAGyP 1075/94',
+      hum: { base: 8.5, tol: 8.5, hf: 8.5, m: 0.25 },
+      fields: [
+        { k: 'mg', l: 'Materia grasa (s.s.s.l.)', u: '%' },
+        { k: 'ac', l: 'Acidez de la materia grasa', u: '%' },
+        { k: 'ce', l: 'Cuerpos extraños', u: '%' },
+        { k: 'er', l: 'Ácido erúcico', u: '%' },
+        { k: 'gl', l: 'Glucosinolatos', u: 'µmol/g' },
+      ],
+      calc(v, out) {
+        if (v.mg != null && v.mg !== 43) line(out, 'Materia grasa (base 43%)', (v.mg - 43) * 1, v.mg);
+        line(out, 'Acidez (base 1%)', -above(v.ac, 1, [[1.5, 2.5], [INF, 5]]), v.ac);
+        line(out, 'Cuerpos extraños', -above(v.ce, 0, [[5, 1], [INF, 1.5]]), v.ce);
+        line(out, 'Ácido erúcico (tol. 2%)', -above(v.er, 2, [[INF, 2]]), v.er);
+        line(out, 'Glucosinolatos (tol. 20)', -above(v.gl, 20, [[INF, 1]]), v.gl);
+      },
+    },
+  ];
+
+  function fmt(x, d) {
+    return Number(x).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+  function line(out, l, pct, v) {
+    if (v == null) return;
+    out.lines.push({ l, pct: r1(pct) });
+  }
+
+  // ---------- Cálculo principal ----------
+  function compute(crop, v, opts) {
+    opts = opts || {};
+    const out = { lines: [], alerts: [], grado: null, det: null };
+    const hum = Object.assign({}, crop.hum, opts.hum || {});
+
+    if (crop.grados) {
+      const g = crop.grados;
+      let worst = 1, det = null, any = false;
+      for (const r of g.rub) {
+        const x = v[r.k]; if (x == null) continue; any = true;
+        let gr = 4;
+        for (let i = 0; i < 3; i++) {
+          if (r.min ? x >= r.lim[i] : x <= r.lim[i]) { gr = i + 1; break; }
+        }
+        if (gr > worst) { worst = gr; det = r; }
+        if (gr === 4) {
+          const exc = r.min ? r.lim[2] - x : x - r.lim[2];
+          if (r.exc) out.lines.push({ l: r.l + ' excede grado 3', pct: r1(-exc * r.exc), est: true });
+        }
+      }
+      if (v.h != null && v.h > hum.tol) { /* humedad no da grado: se trata como merma */ }
+      if (any) {
+        out.grado = worst; out.det = det;
+        const contrato = opts.contrato || g.contrato;
+        if (worst === 4) {
+          out.alerts.push('Fuera de estándar: lo determina ' + det.l.toLowerCase() + '. El descuento se negocia o se rige por la condición del comprador.');
+          if (!g.rub.some(r => r.exc)) out.alerts.push('Esta norma no fija una escala por excedente: el número de abajo no incluye ese descuento.');
+          else out.alerts.push('Los descuentos por excedente del grado 3 son orientativos: verificalos contra la condición del comprador.');
+          if (contrato === 'grado') out.lines.unshift({ l: 'Grado 3 (piso)', pct: g.bon[2] });
+        } else if (contrato === 'grado') {
+          out.lines.unshift({ l: 'Grado ' + worst + (det ? ' (lo da ' + det.l.toLowerCase() + ')' : ''), pct: g.bon[worst - 1] });
+        } else {
+          out.lines.unshift({ l: 'Grado ' + worst + ' · Condición Cámara', pct: 0 });
+        }
+      }
+    }
+    if (crop.calcExtra) crop.calcExtra(v, out, opts.date);
+    if (crop.calc) crop.calc(v, out, opts.date);
+    if (v.ot) out.lines.push({ l: 'Otros (arbitraje)', pct: -Math.abs(v.ot) });
+
+    const mer = merma(v.h, hum);
+    if (v.h != null && crop.id !== 'cebc' && v.h > hum.tol && hum.tol > hum.base) out.alerts.push('Humedad sobre la tolerancia de recibo (' + fmt(hum.tol, 1) + '%).');
+    out.merma = mer;
+    out.total = r1(out.lines.reduce((s, x) => s + x.pct, 0));
+    return out;
+  }
+
+  G.QE = { CROPS, compute, above, below, merma, fmt };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+const {CROPS,compute,fmt}=QE;
+const S={crop:'trigo',vals:{},contrato:{},pre:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem('qe')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('qe',JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const crop=()=>CROPS.find(c=>c.id===S.crop)||CROPS[0];
+const num=s=>{if(s==null)return null;s=String(s).trim().replace(',','.');if(s==='')return null;const n=Number(s);return isFinite(n)?n:NaN};
+const sg=x=>(x>0?'+':x<0?'−':'')+fmt(Math.abs(x),2)+'%';
+
+function chips(){ $('chips').innerHTML=CROPS.map(c=>`<button class="chip${c.id===S.crop?' on':''}" role="tab" aria-selected="${c.id===S.crop}" data-id="${c.id}">${c.n}</button>`).join('');
+  $('chips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{S.crop=b.dataset.id;save();chips();form();calc()}); }
+
+function field(k,l,u){const v=(S.vals[S.crop]||{})[k];return `<div class="f"><label for="i_${k}">${l}<span class="u">${u}</span></label><input id="i_${k}" data-k="${k}" inputmode="decimal" autocomplete="off" placeholder="—" value="${v??''}"></div>`}
+
+function form(){
+  const c=crop();let h=`<p class="norma">${c.norma}</p>`;
+  if(c.grados){
+    const ct=S.contrato[c.id]||c.grados.contrato;
+    h+=`<div class="sec">Contrato</div><div class="seg" id="seg"><button data-v="grado" class="${ct==='grado'?'on':''}">Por grado (base G2)</button><button data-v="camara" class="${ct==='camara'?'on':''}">Condición Cámara</button></div>`;
+    h+=`<div class="sec">Rubros que dan grado</div>`+c.grados.rub.map(r=>field(r.k,r.l,r.u+' · G1/G2/G3: '+r.lim.map(x=>fmt(x,x%1?1:0)).join(' / '))).join('');
+    if(c.extra) h+=`<div class="sec">Otros</div>`+c.extra.map(r=>field(r.k,r.l,r.u)).join('');
+  } else {
+    h+=`<div class="sec">Rubros</div>`+c.fields.map(r=>field(r.k,r.l,r.u)).join('');
+  }
+  h+=`<div class="sec">Humedad y otros</div>`+field('h','Humedad',`% · base ${fmt(c.hum.base,1)}`)+field('ot','Otros descuentos (arbitraje)','% · olores, revolcado, etc.');
+  h+=`<div class="sec">Para pasar a plata y kilos (opcional)</div>`+field('pz','Precio','u$s/t')+field('kg','Kilos entregados','kg');
+  h+=`<div class="btns"><button class="btn" id="clr">Limpiar</button></div>`;
+  h+=`<details><summary>Ajustes de merma por humedad</summary><p>Merma = (Hi − Hf) × 100 / (100 − Hf) + manipuleo. Cambialos si tu acopio usa otra tabla.</p>${field('hf','Humedad final (Hf)','%')}${field('mm','Manipuleo','%')}</details>`;
+  $('form').innerHTML=h;
+  $('form').querySelectorAll('input').forEach(i=>{i.oninput=()=>{const k=i.dataset.k;S.vals[S.crop]=S.vals[S.crop]||{};S.vals[S.crop][k]=i.value;save();calc()}});
+  const pz=$('i_pz'),kg=$('i_kg');const pre=S.pre||{};if(pz&&!pz.value&&pre.pz)pz.value=pre.pz;if(kg&&!kg.value&&pre.kg)kg.value=pre.kg;
+  const hf=$('i_hf'),mm=$('i_mm');if(!hf.value)hf.placeholder=fmt(c.hum.hf,1);if(!mm.value)mm.placeholder=fmt(c.hum.m,2);
+  const seg=$('seg');if(seg)seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.contrato[c.id]=b.dataset.v;save();form();calc()});
+  $('clr').onclick=()=>{S.vals[S.crop]={};save();form();calc()};
+}
+
+function calc(){
+  const c=crop(),raw=S.vals[S.crop]||{},v={};let bad=false;
+  document.querySelectorAll('#form input').forEach(i=>{const n=num(i.value);i.classList.toggle('bad',Number.isNaN(n));if(Number.isNaN(n))bad=true;else if(n!=null)v[i.dataset.k]=n});
+  const hum={};if(v.hf!=null)hum.hf=v.hf;if(v.mm!=null)hum.m=v.mm;
+  const r=compute(c,v,{contrato:S.contrato[c.id],hum});
+  S.pre={pz:raw.pz||S.pre.pz,kg:raw.kg||S.pre.kg};save();
+  let badge='';
+  if(r.grado){const cls=r.grado===4?'out':r.grado===3?'g3':'';badge=`<span class="badge ${cls}">${r.grado===4?'Fuera de estándar':'Grado '+r.grado}${r.det?' · lo determina '+r.det.l.toLowerCase():''}</span>`}
+  let h=badge+`<div class="hero"><div><div class="sub">Ajuste sobre precio</div><div class="big ${r.total>0?'pos':r.total<0?'neg':''}">${sg(r.total)}</div></div><div style="text-align:right"><div class="sub">Merma por humedad</div><div style="font-size:22px;font-weight:600">${r.merma?'−'+fmt(r.merma,2)+'% kg':'—'}</div></div></div>`;
+  h+='<div style="margin-top:10px">'+(r.lines.length?r.lines.map(l=>`<div class="ln"><span>${l.l}${l.est?' *':''}</span><b class="${l.pct>0?'pos':l.pct<0?'neg':''}">${sg(l.pct)}</b></div>`).join(''):'<div class="empty">Cargá los valores del análisis. Si dejás un campo vacío, no se tiene en cuenta.</div>')+'</div>';
+  if(v.kg||v.pz){
+    const kgN=v.kg?v.kg*(1-r.merma/100):null, pzN=v.pz?v.pz*(1+r.total/100):null;
+    h+='<div class="kp">';
+    if(v.kg)h+=`<div><span>Kilos netos (tras merma)</span><strong>${fmt(kgN,0)}</strong></div><div><span>Kilos equivalentes por calidad</span><strong>${(r.total>0?'+':r.total<0?'−':'')+fmt(Math.abs(kgN*r.total/100),0)}</strong></div>`;
+    if(v.pz)h+=`<div><span>Precio efectivo</span><strong>u$s ${fmt(pzN,2)}/t</strong></div>`;
+    if(v.pz&&v.kg){const bruto=v.kg/1000*v.pz,neto=kgN/1000*pzN;h+=`<div><span>Impacto total</span><strong class="${neto-bruto<0?'neg':'pos'}">u$s ${(neto-bruto<0?'−':'+')+fmt(Math.abs(neto-bruto),0)}</strong></div>`}
+    h+='</div>';
+  }
+  h+=r.alerts.map(a=>`<div class="al">${a}</div>`).join('');
+  if(bad)h+=`<div class="al" style="background:var(--red-bg);color:var(--red)">Hay un valor que no es un número. Revisá el campo marcado.</div>`;
+  if(r.lines.some(l=>l.est))h+=`<p class="sub">* Descuento por excedente orientativo.</p>`;
+  if(r.merma)h+=`<p class="sub">La merma reduce kilos; el secado se cobra aparte según la tarifa del acopio.</p>`;
+  h+=`<div class="btns"><button class="btn pri" id="shr">Compartir resultado</button></div>`;
+  h+=`<details><summary>Cómo se calcula</summary><p>Cada rubro suma o resta un % sobre el precio pactado, y los % se suman entre sí. En los cultivos por grado, el grado lo define el peor rubro: el grado 2 es la base, y el grado 1 bonifica y el grado 3 descuenta. En Condición Cámara, los grados 1 a 3 no tienen ajuste. Las escalas por tramo se cobran escalonadas, con fracción proporcional. La humedad no cambia el precio: genera merma de kilos.</p><p>Fuente: cuadros de normas de calidad para la comercialización de la Cámara Arbitral de Cereales (BCR). La condición de recibo de cada comprador puede ser distinta.</p></details>`;
+  $('res').innerHTML=h;
+  $('bt').textContent=sg(r.total);$('bm').textContent=r.merma?'−'+fmt(r.merma,2)+'%':'—';
+  $('shr').onclick=()=>share(c,v,r);
+}
+
+function share(c,v,r){
+  let t=`${c.n} · ${c.norma}\n`;
+  if(r.grado)t+=(r.grado===4?'Fuera de estándar':'Grado '+r.grado)+(r.det?' (lo determina '+r.det.l.toLowerCase()+')':'')+'\n';
+  r.lines.forEach(l=>t+=`${l.l}: ${sg(l.pct)}\n`);
+  t+=`Ajuste total sobre precio: ${sg(r.total)}\n`;if(r.merma)t+=`Merma por humedad: −${fmt(r.merma,2)}% kg\n`;
+  r.alerts.forEach(a=>t+='⚠ '+a+'\n');
+  if(navigator.share)navigator.share({text:t}).catch(()=>{});
+  else if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>{$('shr').textContent='Copiado';setTimeout(()=>$('shr').textContent='Compartir resultado',1500)});
+}
+
+function net(){const on=navigator.onLine;$('dot').style.background=on?'#3B6D11':'#BA7517';$('netl').textContent=on?'Lista para usar offline':'Sin conexión · funcionando'}
+addEventListener('online',net);addEventListener('offline',net);
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+chips();form();calc();net();
+</script>
+</body>
+</html>
